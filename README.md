@@ -13,11 +13,6 @@ Duration: 45 minutes
 
 ## Content
 
-- Create an Azure Synapse Database
-- Ingest IoT Data into Azure Synapse DB (with Stream Analytics)
-- Analyze data using SQL
-- Analyse raw data stored in flat files using SQL (OpenRowSet)
-
 |  | Step | Objective | 
 |--|--|--|
 | 00 | [Setup your environment](0-setup-environment/index.md) | Easily setup your Azure subscription for Azure Synapse and simulating IoT devices. |
