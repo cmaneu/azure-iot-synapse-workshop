@@ -1,0 +1,1 @@
+# Ingest IoT Data into Azure Synapse
