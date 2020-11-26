@@ -1,5 +1,6 @@
 # Create an Azure Synapse Database 
 
+> **Objective**: Setup a Synapse workspace, create a database, and create tables within this database to store IoT Data.
 
 ## Create a Synapse workspace in the Azure portal
 
@@ -37,4 +38,5 @@ After your Azure Synapse workspace is created, you have two ways to open Synapse
 
 ## Additional infos
 
+- [⌨️ Learn - Design a data warehouse with Synapse](https://docs.microsoft.com/en-us/learn/modules/design-azure-sql-data-warehouse/)
 - [📚 Docs - Create a Synapse workspace](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-create-workspace)
