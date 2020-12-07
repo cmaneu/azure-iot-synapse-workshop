@@ -35,6 +35,7 @@ az iot hub routing-endpoint create --hub-name $IOTHUB_NAME \
 --endpoint-name "datalake" \
 --endpoint-resource-group $RESOURCE_GROUP_NAME \
 --endpoint-subscription-id $SUBSCRIPTION_ID \
+--encoding json \
 --endpoint-type azurestoragecontainer \
 --batch-frequency 60 --chunk-size 10 \
 --connection-string $STORAGE_ACCOUNT_CONNECTION_STRING \
@@ -62,5 +63,4 @@ az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-3"
 # TODO
 
 #  Create an ACI and launch it.
-
 # TODO

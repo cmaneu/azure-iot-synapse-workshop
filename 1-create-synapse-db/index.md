@@ -34,7 +34,98 @@ After your Azure Synapse workspace is created, you have two ways to open Synapse
 
 ## Create the database schema
 
+Azure Synapse SQL Pools enables you to create tables like in any classic Datawarehouse, except you can now scale to an entire new level.
 
+For this workshop, we'll create 3 tables: 
+
+- A `Room` Table, containing a list of rooms and their associated building,
+- A `Device` Table, containing metadata about the IoT devices, including the room they're in,
+- A `Measurement` Table, containing all the measurements from these IoT devices.
+
+### Room Table
+
+Creating a Table is as easy as creating one in a traditional SQL table. 
+To execute this query: 
+1. In the Synapse Web UI, go to the **Develop** Tab on the left,
+1. Click the Plus (+) sign, and select *SQL Script*
+1. Paste the following content into the editor
+1. Click on **Run** in the top toolbar.
+
+```sql
+CREATE TABLE [dbo].[Room]
+(
+    RoomId int NOT NULL,
+    RoomName nvarchar(255) NOT NULL,
+    BuildingName nvarchar(255) NOT NULL
+)
+WITH
+(
+    DISTRIBUTION = REPLICATE,
+    CLUSTERED COLUMNSTORE INDEX
+)
+GO
+```
+
+> Did you notice `DISTRIBUTION = REPLICATE' at the end of the query?
+
+Now, we'll import data into that table. We could issue a `INSERT` query, but we'll take another approach. We already have all our rooms listed in a CSV File. Thanks to the [`COPY INTO` )(https://docs.microsoft.com/en-us/sql/t-sql/statements/copy-into-transact-sql?view=azure-sqldw-latest) statement, we can load the content of a CSV file (or a JSON, Parquet and ORC) directly into a Synapse Table.
+
+```sql
+COPY INTO [dbo].[Room]
+FROM 'https://synapseiotworkshopch.blob.core.windows.net/data/data-rooms.csv'
+WITH (
+    FILE_TYPE = 'CSV',
+    --CREDENTIAL=(IDENTITY= 'Shared Access Signature', SECRET='?sv=2019-02-02&yeahthaisar34ls34cr3th0h0h0'),
+    FIELDTERMINATOR=','
+    --ROWTERMINATOR=';'
+);
+```
+
+> In this example, note that two parameters are commented: Credential and RowTerminator. You can then load data from a trusted source like a private blob stored into your container.
+
+### Device Table
+
+```sql
+CREATE TABLE [dbo].[Device]
+(
+    DeviceId nvarchar(20) NOT NULL,
+    RoomId int NOT NULL
+)
+WITH
+(
+    DISTRIBUTION = REPLICATE,
+    CLUSTERED COLUMNSTORE INDEX
+)
+GO
+
+COPY INTO [dbo].[Device] (RoomId, DeviceId)
+FROM 'https://synapseiotworkshopch.blob.core.windows.net/data/data-devices.csv'
+WITH (
+    FILE_TYPE = 'CSV',
+    FIELDTERMINATOR=','
+);
+```
+
+> Note as we've added some parameter in this "copy into" instruction. As our CSV file is not following the same Column ordering, you can instruct Synapse to load data in a specific order.
+
+
+### Measurement Table
+
+```sql
+-- Create Measurement Table
+CREATE TABLE [dbo].[Measurement]
+(
+    DeviceId nvarchar(20) NOT NULL,
+    TimeStamp datetime NOT NULL,
+    Temperature float NOT NULL
+)
+WITH
+(
+    DISTRIBUTION = HASH(DeviceId),
+    CLUSTERED COLUMNSTORE INDEX
+)
+GO
+```
 
 ## Additional infos
 

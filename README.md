@@ -16,9 +16,9 @@ Duration: 45 minutes
 |  | Step | Objective | 
 |--|--|--|
 | 00 | [Setup your environment](0-setup-environment/index.md) | Easily setup your Azure subscription for Azure Synapse and simulating IoT devices. |
-| 01| [Create an Azure Synapse Database](1-create-synapse-db/index.md) | Create a Synapse Account, and a database schema | 
+| 01| [Create an Azure Synapse Database](1-create-synapse-db/index.md) | Create a Synapse Account, and a database schema |
 | 02 | [Ingest IoT Data into Azure Synapse](2-ingest-iot-data/index.md) | Use Stream Analytics to store IoT Data into an Azure Synapse Table
-| 03 | [Analyse data using SQL](3-analyze-data/index.md) | Use Synapse Notebooks to explore your data
+| 03 | [Analyse data using SQL](3-analyze-data/index.md) | Use Synapse to explore your data
 | 04 | [Analyse raw data stored in flat files using SQL](4-analyze-raw-data/index.md) | Use Synapse to read files from Blob Storage and query them.
     
 ### Additional content
