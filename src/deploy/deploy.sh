@@ -74,7 +74,7 @@ IOTHUB_CS=`az iot hub show-connection-string --name $IOTHUB_NAME --policy-name i
 
 #  Create an ACI and launch it.
 printf "\n   - Launching the simulator\n" 
-az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator --image cmaneu/mqttdevicesim:latest --secure-environment-variables IOTHUB_CS="IOTHUB_CS" IOTHUB_FQDN="IOTHUB_NAME".azuredevices.net  --restart-policy Never
+az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator --image cmaneu/mqttdevicesim:latest --secure-environment-variables IOTHUB_CS="$IOTHUB_CS" IOTHUB_FQDN="$IOTHUB_NAME".azuredevices.net  --restart-policy Never
 
 ## Create a Synapse Workspace & Pool
 printf "\n   - Creating Synapse Workspace\n" 
