@@ -1,8 +1,8 @@
-printf "\n*** AZURE IOT & SYNAPSE Workshop Creation on Subscription #$SUBSCRIPTION_ID ***\n"
+printf "\e[44m\n*** AZURE IOT & SYNAPSE Workshop Creation on Subscription #$SUBSCRIPTION_ID ***\n\e[0m"
 SUBSCRIPTION_ID=`az account show --query id --output tsv`
 MAIN_REGION=westeurope
 
-printf "\n*** Working on on Subscription #$SUBSCRIPTION_ID and region $MAIN_REGION***\n"
+printf "\e[44m\n*** Working on on Subscription #$SUBSCRIPTION_ID and region $MAIN_REGION***\n\e[0m"
 
 read -p 'New resource group name: ' RESOURCE_GROUP_NAME
 read -p 'Unique prefix (applied to all resources): ' RESOURCE_PREFIX
@@ -11,11 +11,11 @@ STORAGE_ACCOUNT_NAME="$RESOURCE_PREFIX"datalake
 IOTHUB_NAME="$RESOURCE_PREFIX"iothub
 
 # Create resource group
-printf "\n*** Creating resource group $RESOURCE_GROUP_NAME ***\n"
+printf "\e[44m\n*** Creating resource group $RESOURCE_GROUP_NAME ***\n\e[0m"
 az group create -n $RESOURCE_GROUP_NAME -l $MAIN_REGION
 
 # Create storage account to store IoT Hub messages
-printf "\n*** Creating storage account (Data Lake) $STORAGE_ACCOUNT_NAME ***\n"
+printf "\e[44m\n*** Creating storage account (Data Lake) $STORAGE_ACCOUNT_NAME ***\n\e[0m"
 az storage account create -n $STORAGE_ACCOUNT_NAME -g $RESOURCE_GROUP_NAME -l $MAIN_REGION --sku Standard_LRS --kind StorageV2 --enable-hierarchical-namespace true
 
 az storage fs create -n "raw-data" --account-name $STORAGE_ACCOUNT_NAME
@@ -73,9 +73,11 @@ az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-10"
 IOTHUB_CS=`az iot hub show-connection-string --name $IOTHUB_NAME --policy-name iothubowner --output tsv`
 
 #  Create an ACI and launch it.
+printf "\n   - Launching the simulator\n" 
 az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator --image cmaneu/mqttdevicesim:latest --secure-environment-variables IOTHUB_CS="IOTHUB_CS" IOTHUB_FQDN="IOTHUB_NAME".azuredevices.net  --restart-policy Never
 
 ## Create a Synapse Workspace & Pool
+printf "\n   - Creating Synapse Workspace\n" 
 SYNAPSE_NAME="$RESOURCE_PREFIX"synapsews
 az synapse workspace create --name $SYNAPSE_NAME -g $RESOURCE_GROUP_NAME \
 --sql-admin-login-user demo \
