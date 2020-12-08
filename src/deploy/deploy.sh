@@ -54,13 +54,38 @@ az iot hub route create --hub-name $IOTHUB_NAME \
 --endpoint-name "events" \
 --resource-group $RESOURCE_GROUP_NAME \
 
+# Create Consumer group for ASA
+az iot hub consumer-group create --hub-name $IOTHUB_NAME --name StreamAnalytics
+
 # - Create devices
 az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-1"
 az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-2"
 az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-3"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-4"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-5"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-6"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-7"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-8"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-9"
+az iot hub device-identity create -n $IOTHUB_NAME -d "simulated-10"
 
-# - Get SAS keys from devices
-# TODO
+# - Get Connection String
+IOTHUB_CS=`az iot hub show-connection-string --name $IOTHUB_NAME --policy-name iothubowner --output tsv`
 
 #  Create an ACI and launch it.
-# TODO
+az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator --image cmaneu/mqttdevicesim:latest --secure-environment-variables IOTHUB_CS="IOTHUB_CS" IOTHUB_FQDN="IOTHUB_NAME".azuredevices.net  --restart-policy Never
+
+## Create a Synapse Workspace & Pool
+SYNAPSE_NAME="$RESOURCE_PREFIX"synapsews
+az synapse workspace create --name $SYNAPSE_NAME -g $RESOURCE_GROUP_NAME \
+--sql-admin-login-user demo \
+--sql-admin-login-password Password123! \
+--location $MAIN_REGION \
+--storage-account $STORAGE_ACCOUNT_NAME --file-system "synapse-data"
+
+az synapse sql pool create --name sqlpool --performance-level "DW100c" \
+--workspace-name $SYNAPSE_NAME --resource-group $RESOURCE_GROUP_NAME
+
+
+printf "------------------------------"
+printf "Hooray! Your workshop environment is now ready."

@@ -5,7 +5,7 @@
 ## Create a Synapse workspace in the Azure portal
 
 1. Open the [Azure portal](https://portal.azure.com), and at the top search for **Synapse**.
-1. In the search results, under **Services**, select **Azure Synapse Analytics (workspaces preview)**.
+1. In the search results, under **Services**, select **Azure Synapse Analytics**.
 1. Select **Add** to create a workspace.
 1. In **Basics**, enter your preferred **Subscription**, **Resource group**, **Region**, and then choose a workspace name. In this tutorial, we'll use **myworkspace**.
 1. Navigate to **Select Data Lake Storage Gen 2**. 
@@ -14,6 +14,8 @@
 1. Click **Next** button.
 1. Under **SQL administrator credentials**, type a Password in both fields.
 1. Select **Review + create** > **Create**. Your workspace is ready in a few minutes.
+
+> **Warning**: Note down (or remember :) ) your Synapse username and password. We will need it in few steps.
 
 ## Open Synapse Studio
 
@@ -42,12 +44,16 @@ For this workshop, we'll create 3 tables:
 - A `Device` Table, containing metadata about the IoT devices, including the room they're in,
 - A `Measurement` Table, containing all the measurements from these IoT devices.
 
+
+> **TODO**: Tell that you need to set to SQLPOOL. 
+
 ### Room Table
 
 Creating a Table is as easy as creating one in a traditional SQL table. 
 To execute this query: 
 1. In the Synapse Web UI, go to the **Develop** Tab on the left,
 1. Click the Plus (+) sign, and select *SQL Script*
+1. On the **Connect to**, ensure to select the SQL Pool you've just created (SQLPOOL1)
 1. Paste the following content into the editor
 1. Click on **Run** in the top toolbar.
 

@@ -5,6 +5,11 @@
 
 ## Do simple queries with SQL
 
+- From Synapse
+    - Top 100 + Where
+    - Join on Rooms
+- From ADS
+
 ## Bonus: visualize your data with PowerBI
 
 ## Additional infos
