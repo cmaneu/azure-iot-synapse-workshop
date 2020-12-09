@@ -65,7 +65,7 @@
 
 ```sql
 SELECT
-    IoTHub.ConnectionDeviceId as DeviceId,
+    dev as DeviceId,
     ts  as TimeStamp,
     temp as Temperature
 INTO

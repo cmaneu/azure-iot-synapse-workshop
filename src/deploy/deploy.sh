@@ -40,7 +40,8 @@ az iot hub routing-endpoint create --hub-name $IOTHUB_NAME \
 --batch-frequency 60 --chunk-size 10 \
 --connection-string $STORAGE_ACCOUNT_CONNECTION_STRING \
 --resource-group $RESOURCE_GROUP_NAME \
---container-name "raw-data"
+--container-name "raw-data"  \
+--file-name-format "{iothub}/{partition}/{YYYY}/{MM}/{DD}/{HH}/{mm}.json"
 
 az iot hub route create --hub-name $IOTHUB_NAME \
 --route-name "all-to-datalake" \
@@ -74,7 +75,10 @@ IOTHUB_CS=`az iot hub show-connection-string --name $IOTHUB_NAME --policy-name i
 
 #  Create an ACI and launch it.
 printf "\n   - Launching the simulator\n" 
-az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator --image cmaneu/mqttdevicesim:latest --secure-environment-variables IOTHUB_CS="$IOTHUB_CS" IOTHUB_FQDN="$IOTHUB_NAME".azuredevices.net  --restart-policy Never
+az container create -g $RESOURCE_GROUP_NAME --name "$RESOURCE_PREFIX"simulator \
+--image cmaneu/mqttdevicesim:continuous-simulation \
+--environment-variables IOTHUB_CS="$IOTHUB_CS" IOTHUB_FQDN="$IOTHUB_NAME".azure-devices.net DAYS_TO_GENERATE=10 \
+--restart-policy Never --cpu 2 --memory 2
 
 ## Create a Synapse Workspace & Pool
 printf "\n   - Creating Synapse Workspace\n" 
@@ -85,9 +89,18 @@ az synapse workspace create --name $SYNAPSE_NAME -g $RESOURCE_GROUP_NAME \
 --location $MAIN_REGION \
 --storage-account $STORAGE_ACCOUNT_NAME --file-system "synapse-data"
 
-az synapse sql pool create --name sqlpool --performance-level "DW100c" \
+az synapse workspace firewall-rule create --name allowAll --workspace-name $SYNAPSE_NAME \
+--resource-group $RESOURCE_GROUP_NAME --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
+
+az synapse sql pool create --name "$RESOURCE_PREFIX"pool --performance-level "DW100c" \
 --workspace-name $SYNAPSE_NAME --resource-group $RESOURCE_GROUP_NAME
 
 
-printf "------------------------------"
-printf "Hooray! Your workshop environment is now ready."
+printf "\n\nHooray! Your workshop environment is now ready."
+printf "\e[44m\n - Resource group: $RESOURCE_GROUP_NAME\n\e[0m"
+printf " - Prefix: $RESOURCE_PREFIX\n"
+printf " - Data Lake: $STORAGE_ACCOUNT_NAME\n"
+printf " - IoT Hub: $IOTHUB_NAME\n"
+printf " - Azure Synapse: $SYNAPSE_NAME.sql.azuresynapse.net\n"
+printf "        Username: demo\n"
+printf "        Password: Password123!\n"

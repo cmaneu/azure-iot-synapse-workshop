@@ -5,6 +5,20 @@
 
 ## Do simple queries with SQL
 
+
+```sql
+SELECT COUNT(*) FROM [dbo].[Measurement]
+```
+
+```sql
+SELECT TOP 100 * FROM [dbo].[Measurement]
+WHERE Temperature > 6
+```
+
+```sql
+
+```
+
 - From Synapse
     - Top 100 + Where
     - Join on Rooms
