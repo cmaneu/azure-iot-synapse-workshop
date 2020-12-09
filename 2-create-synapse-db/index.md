@@ -2,8 +2,15 @@
 
 > **Objective**: Setup a Synapse workspace, create a database, and create tables within this database to store IoT Data.
 
-## Create a Synapse workspace in the Azure portal
+## Create a Synapse workspace and SQL Pool
 
+The setup script already created a Synapse workspace and an SQL Pool for you :).
+
+<details>
+<summary> Do you want to create your workspace by yourself?
+</summary>
+
+### Create a Synapse workspace
 1. Open the [Azure portal](https://portal.azure.com), and at the top search for **Synapse**.
 1. In the search results, under **Services**, select **Azure Synapse Analytics**.
 1. Select **Add** to create a workspace.
@@ -15,7 +22,21 @@
 1. Under **SQL administrator credentials**, type a Password in both fields.
 1. Select **Review + create** > **Create**. Your workspace is ready in a few minutes.
 
+### Create a dedicated SQL Pool
+1. In Synapse Studio, on the left-side pane, select **Manage** > **SQL pools**.
+1. Select **New**
+1. For **SQL pool name** select **SQLPOOL1**
+1. For **Performance level** choose **DW100C**
+1. Select **Review + create** > **Create**. Your dedicated SQL pool will be ready in a few minutes. Your dedicated SQL pool is associated with a dedicated SQL pool database that's also called **SQLPOOL1**.
+
+
 > **Warning**: Note down (or remember :) ) your Synapse username and password. We will need it in few steps.
+
+</details>
+
+
+> ⚠️ A dedicated SQL pool consumes billable resources as long as it's active. You can pause the pool later to reduce costs. Do not forget to delete this resource group at the end of the workshop.
+
 
 ## Open Synapse Studio
 
@@ -23,16 +44,6 @@ After your Azure Synapse workspace is created, you have two ways to open Synapse
 
 * Open your Synapse workspace in the [Azure portal](https://portal.azure.com). On the top of the **Overview** section, select **Launch Synapse Studio**.
 * Go to the `https://web.azuresynapse.net` and sign in to your workspace.
-
-## Create a dedicated SQL pool
-
-1. In Synapse Studio, on the left-side pane, select **Manage** > **SQL pools**.
-1. Select **New**
-1. For **SQL pool name** select **SQLPOOL1**
-1. For **Performance level** choose **DW100C**
-1. Select **Review + create** > **Create**. Your dedicated SQL pool will be ready in a few minutes. Your dedicated SQL pool is associated with a dedicated SQL pool database that's also called **SQLPOOL1**.
-
-> ⚠️ A dedicated SQL pool consumes billable resources as long as it's active. You can pause the pool later to reduce costs. Do not forget to delete this resource group at the end of the workshop.
 
 ## Create the database schema
 
@@ -45,7 +56,8 @@ For this workshop, we'll create 3 tables:
 - A `Measurement` Table, containing all the measurements from these IoT devices.
 
 
-> **TODO**: Tell that you need to set to SQLPOOL. 
+> **IMPORTANT**: To execute the following SQL queries, ensure you're selecting the dedicated pool, and not the **Built-in** one.
+> ![Select the appropriate pool](../media/2-select-pool.png)
 
 ### Room Table
 
@@ -133,7 +145,12 @@ WITH
 GO
 ```
 
+We now have our database ready for our IoT Data!
+
 ## Additional infos
 
-- [⌨️ Learn - Design a data warehouse with Synapse](https://docs.microsoft.com/en-us/learn/modules/design-azure-sql-data-warehouse/)
-- [📚 Docs - Create a Synapse workspace](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-create-workspace)
+- [⌨️ Learn - Design a data warehouse with Synapse](https://docs.microsoft.com/learn/modules/design-azure-sql-data-warehouse/?wt.mc_id=startup-11038-chmaneu)
+- [📚 Docs - Create a Synapse workspace](https://docs.microsoft.com/azure/synapse-analytics/get-started-create-workspace?wt.mc_id=startup-11038-chmaneu)
+<hr />
+
+## *[Next: Ingest IoT data](../3-ingest-iot-data/index.md)*
