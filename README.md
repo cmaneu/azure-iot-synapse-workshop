@@ -23,7 +23,7 @@ Duration: 45 minutes
 | 01 | [Analyse raw data stored in flat files using SQL](1-analyze-raw-data/index.md) | Use Synapse to read files from Blob Storage and query them.
 | 02| [Create an Azure Synapse Database](2-create-synapse-db/index.md) | Create a Synapse Account, and a database schema |
 | 03 | [Ingest IoT Data into Azure Synapse](3-ingest-iot-data/index.md) | Use Stream Analytics to store IoT Data into an Azure Synapse Table
-| 04 | [Analyse data using SQL](4-analyze-data/index.md) | Use Synapse to explore your data
+| 04 | [Analyse data using SQL](4-analyse-data/index.md) | Use Synapse to explore your data
 
 ## Need Help?
 
