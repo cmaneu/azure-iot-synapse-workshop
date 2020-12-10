@@ -10,7 +10,7 @@ Duration: 45 minutes
 
 ## Prerequisites
 
-- A Microsoft Azure Account
+- A [Microsoft Azure Account](https://azure.microsoft.com/free/?wt.mc_id=startup-11038-chmaneu)
 - A basic knowledge of SQL Language
 
 ## Content
