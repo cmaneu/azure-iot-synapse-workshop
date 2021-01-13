@@ -2,7 +2,7 @@
 
 > **Objective** Query raw iot devices data stored in Data Lake with Synapse Serverless SQL pool.
 
-This step is done within [Azure Synapse Web UI](https://https://web.azuresynapse.net/). Open this page and select the workspace you've created at the previous step.
+This step is done within [Azure Synapse Web UI](https://web.azuresynapse.net/). Open this page and select the workspace you've created at the previous step.
 
 ![Synapse Web UI Home](../media/1-synapse-ui.png)
 
